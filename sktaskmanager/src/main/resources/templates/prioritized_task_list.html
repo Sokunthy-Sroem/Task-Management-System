@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Task Management System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+
+.table-container {
+        max-height: 620px; /* Set the max height as needed */
+        overflow-y: auto; /* Add vertical scroll */
+    }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+ <div class="w3-bar w3-pink w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a th:href="@{/task/view}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Task List</a>
+    <a th:href= "@{/task/create}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Add Task</a>
+    <a th:href= "@{/task/overdue}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Overdue Task List</a>
+    <a th:href= "@{/task/completed}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Mark As Completed</a>
+    <a th:href= "@{/task/priority}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Prioritized Task List</a>
+    
+  </div>
+
+
+	<div class="container my-2">
+	<h1>Prioritized Task List</h1>
+		
+    <table border="1" class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <thead>
+                 <tr class="w3-light-grey">
+            <th>
+              ID
+          	</th>
+          	<th>
+              Task Name
+          	</th>
+          	<th>
+              Description
+          	</th>
+          	<th>
+              To-Do Date
+          	</th>
+         	 <th>
+              Start Time
+         	 </th>
+          	<th>
+              End Time
+         	 </th>
+         	 <th>
+              Due Date
+          	</th>
+          	<th>
+              Priority
+          	</th>
+          	<th>
+              Category
+          	</th>
+          	<th>
+              Status
+          	</th>
+             <th> Operations </th>
+                </tr>
+            </thead>
+            <tbody>
+            	<tr>
+            <td colspan="10">
+                <a th:href="@{/task/priority/1}"> High(1), </a>
+                <a th:href="@{/task/priority/2}"> Medium(2),  </a>
+                <a th:href="@{/task/priority/3}"> and Low(3) Priority Tasks </a>
+            </td>
+        </tr>
+				
+                <tr th:each="prioritizedTask : ${tasksByPriority}">
+                <td th:text="${prioritizedTask.id}"></td>
+    			<td th:text="${prioritizedTask.taskName}"></td>
+   				<td th:text="${prioritizedTask.description}"></td>
+   				<td th:text="${prioritizedTask.todoDate}"></td>
+          		<td th:text="${prioritizedTask.startTime}"></td>
+         		<td th:text="${prioritizedTask.endTime}"></td>
+          		<td th:text="${prioritizedTask.dueDate}"></td>
+          		<td th:text="${prioritizedTask.priority}"></td>
+          		<td th:text="${prioritizedTask.category}"></td>
+          		<td th:text="${prioritizedTask.status}"></td>
+          		
+          		
+          		
+          		<td> <a th:href="@{/task/update/{id}(id=${prioritizedTask.id})}" class="btn btn-primary">Update</a>
+            <a class="btn btn-danger" href="#" th:onclick="'showConfirmationModal('+${prioritizedTask.id}+')'">Delete</a>
+                        <!--<a th:href="@{/task/delete/{id}(id=${prioritizedTask.id})}" class="btn btn-danger">Delete</a>-->
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <!-- JavaScript for Confirmation Modal -->
+    <script type="text/javascript">
+        function showConfirmationModal(id) {
+            var confirmation = confirm("Are you sure you want to delete this task?");
+            if (confirmation) {
+                window.location.href = "/task/delete/" + id;
+            }
+        }
+    </script>
+      </form>
+		
+		<hr>
+		
+		 <a th:href = "@{/task}"> Back to Home</a>
+		</div>
+    </div>
+  </div>
+
+  
+</body>
+</html>
